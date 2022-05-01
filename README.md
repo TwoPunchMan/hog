@@ -7,6 +7,7 @@ To whomever is reading this: good luck with this project.<br>
 I am not a Berkeley student.<br>
 I did not attend Berkeley as an undergrad.<br>
 The purpose of this repo is to help myself learn good CS theory, as per [teachyourselfcs.com](https://www.teachyourselfcs.com)<br>
+If this code helped anyone out there, great. If not, that's okay too.<br>
 That's about it.
 <br>
 <br>
