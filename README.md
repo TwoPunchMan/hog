@@ -28,5 +28,5 @@ The result of this series of calls modulo 30 is the amount of points the player 
 - After points for the turn are dealt with, if the last digit of the player's score is = to the opponent's, the player gets a boost to his score by the last digit (e.g. Turn outcome: player 123 vs. opp 453 -> player score becomes 126 (123 + 3) vs 453)
 
 ### Issues/Bugs?
-- couldn't pass the fuzz test on problem 5 suite 5 case 87. Kinda gave up on that one.
-- problem 10 suite 1 case 4. Test not passing
+- couldn't pass the fuzz test on problem 5 suite 5 case 87 `python3 ok -q 10 --suite 5 --case 87`. Kinda gave up on that one.
+- Test not passing on problem 10 suite 1 case 4 `python3 ok -q 10 --suite 1 --case 4`.
