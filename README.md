@@ -30,4 +30,3 @@ The result of this series of calls modulo 30 is the amount of points the player 
 ### Issues/Bugs?
 - couldn't pass the fuzz test on problem 5 suite 5 case 87 `python3 ok -q 10 --suite 5 --case 87`. Kinda gave up on that one.
 - Test not passing on problem 10 suite 1 case 4 `python3 ok -q 10 --suite 1 --case 4`.
-- Test not passing on problem 11 suite 2 case 42 `python3 ok -q 11 --suite 2 --case 42`.
