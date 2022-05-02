@@ -193,7 +193,12 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
 	# END PROBLEM 5
 	# (note that the indentation for the problem 7 prompt (***YOUR CODE HERE***) might be misleading)
 	# BEGIN PROBLEM 7
-	"*** YOUR CODE HERE ***"
+	#"*** YOUR CODE HERE ***"
+		
+		leader, msg = say(score0, score1, leader)
+		if msg is not None and msg != "":
+			print(msg)
+		
 	# END PROBLEM 7
 	return score0, score1
 
@@ -210,25 +215,41 @@ def say_scores(score0, score1, player=None):
 
 
 def announce_lead_changes(score0, score1, last_leader=None):
-    """A commentary function that announces when the leader has changed.
+	"""A commentary function that announces when the leader has changed.
 
-    >>> leader, message = announce_lead_changes(5, 0)
-    >>> print(message)
-    Player 0 takes the lead by 5
-    >>> leader, message = announce_lead_changes(5, 12, leader)
-    >>> print(message)
-    Player 1 takes the lead by 7
-    >>> leader, message = announce_lead_changes(8, 12, leader)
-    >>> print(leader, message)
-    1 None
-    >>> leader, message = announce_lead_changes(8, 13, leader)
-    >>> leader, message = announce_lead_changes(15, 13, leader)
-    >>> print(message)
-    Player 0 takes the lead by 2
-    """
-    # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 6
+	>>> leader, message = announce_lead_changes(5, 0)
+	>>> print(message)
+	Player 0 takes the lead by 5
+	>>> leader, message = announce_lead_changes(5, 12, leader)
+	>>> print(message)
+	Player 1 takes the lead by 7
+	>>> leader, message = announce_lead_changes(8, 12, leader)
+	>>> print(leader, message)
+	1 None
+	>>> leader, message = announce_lead_changes(8, 13, leader)
+	>>> leader, message = announce_lead_changes(15, 13, leader)
+	>>> print(message)
+	Player 0 takes the lead by 2
+	"""
+	# BEGIN PROBLEM 6
+	"*** YOUR CODE HERE ***"
+	msg = None
+	current_leader = last_leader
+
+	if score0 > score1:
+		msg = f"Player 0 takes the lead by {score0 - score1}"
+		current_leader = 0
+	elif score0 < score1:
+		msg = f"Player 1 takes the lead by {score1 - score0}"
+		current_leader = 1
+	else:
+		current_leader = None
+
+	if current_leader == last_leader:
+		msg = None
+
+	return current_leader, msg
+	# END PROBLEM 6
 
 
 def both(f, g):
@@ -281,34 +302,53 @@ def always_roll(n):
 
 
 def make_averaged(original_function, total_samples=1000):
-    """Return a function that returns the average value of ORIGINAL_FUNCTION
-    called TOTAL_SAMPLES times.
+	"""Return a function that returns the average value of ORIGINAL_FUNCTION
+	called TOTAL_SAMPLES times.
 
-    To implement this function, you will have to use *args syntax, a new Python
-    feature introduced in this project.  See the project description.
+	To implement this function, you will have to use *args syntax, a new Python
+	feature introduced in this project.  See the project description.
 
-    >>> dice = make_test_dice(4, 2, 5, 1)
-    >>> averaged_dice = make_averaged(roll_dice, 1000)
-    >>> averaged_dice(1, dice)
-    3.0
-    """
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 8
+	>>> dice = make_test_dice(4, 2, 5, 1)
+	>>> averaged_dice = make_averaged(roll_dice, 1000)
+	>>> averaged_dice(1, dice)
+	3.0
+	"""
+	# BEGIN PROBLEM 8
+	"*** YOUR CODE HERE ***"
+	def make_averaged_function(*args):
+		total = 0
+		
+		for _ in range(total_samples):
+			total += original_function(*args)
+
+		return total / total_samples
+	return make_averaged_function
+	# END PROBLEM 8
 
 
 def max_scoring_num_rolls(dice=six_sided, total_samples=1000):
-    """Return the number of dice (1 to 10) that gives the highest average turn score
-    by calling roll_dice with the provided DICE a total of TOTAL_SAMPLES times.
-    Assume that the dice always return positive outcomes.
+	"""Return the number of dice (1 to 10) that gives the highest average turn score
+	by calling roll_dice with the provided DICE a total of TOTAL_SAMPLES times.
+	Assume that the dice always return positive outcomes.
 
-    >>> dice = make_test_dice(1, 6)
-    >>> max_scoring_num_rolls(dice)
-    1
-    """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
+	>>> dice = make_test_dice(1, 6)
+	>>> max_scoring_num_rolls(dice)
+	1
+	"""
+	# BEGIN PROBLEM 9
+	"*** YOUR CODE HERE ***"
+	i = 1
+	max_rolls = 0
+	max_avg_points = 0
+	while i <= 10:
+		avg_points = make_averaged(roll_dice, total_samples)(i, dice)
+		if avg_points > max_avg_points:
+			max_avg_points = avg_points
+			max_rolls = i
+		i += 1
+	return max_rolls
+
+	# END PROBLEM 9
 
 
 def winner(strategy0, strategy1):
@@ -344,22 +384,29 @@ def run_experiments():
 
 
 def hefty_hogs_strategy(score, opponent_score, threshold=8, num_rolls=6):
-    """This strategy returns 0 dice if that gives at least THRESHOLD points, and
-    returns NUM_ROLLS otherwise.
-    """
-    # BEGIN PROBLEM 10
-    return 6  # Remove this line once implemented.
-    # END PROBLEM 10
+	"""This strategy returns 0 dice if that gives at least THRESHOLD points, and
+	returns NUM_ROLLS otherwise.
+	"""
+	# BEGIN PROBLEM 10
+	if hefty_hogs(score, opponent_score) >= threshold:
+		return 0
+	return num_rolls  # Remove this line once implemented.
+	# END PROBLEM 10
 
 
 def hog_pile_strategy(score, opponent_score, threshold=8, num_rolls=6):
-    """This strategy returns 0 dice when this would result in Hog Pile taking
-    effect. It also returns 0 dice if it gives at least THRESHOLD points.
-    Otherwise, it returns NUM_ROLLS.
-    """
-    # BEGIN PROBLEM 11
-    return 6  # Remove this line once implemented.
-    # END PROBLEM 11
+	"""This strategy returns 0 dice when this would result in Hog Pile taking
+	effect. It also returns 0 dice if it gives at least THRESHOLD points.
+	Otherwise, it returns NUM_ROLLS.
+	"""
+	# BEGIN PROBLEM 11
+	player_score_before_hog_pile = hefty_hogs(score, opponent_score) + score
+	if hog_pile(player_score_before_hog_pile, opponent_score):
+		return 0
+	return hefty_hogs_strategy(score, opponent_score, threshold, num_rolls)
+	
+	# Remove this line once implemented.
+	# END PROBLEM 11
 
 
 def final_strategy(score, opponent_score):
