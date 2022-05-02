@@ -29,3 +29,4 @@ The result of this series of calls modulo 30 is the amount of points the player 
 
 ### Issues/Bugs?
 - couldn't pass the fuzz test on problem 5 suite 5 case 87. Kinda gave up on that one.
+- problem 10 suite 1 case 4. Test not passing
